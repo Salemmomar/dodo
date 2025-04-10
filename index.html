@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>شو أعمل اليوم؟</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #fbc2eb, #a6c1ee);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      direction: rtl;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .decision {
+      font-size: 1.5rem;
+      min-height: 60px;
+      margin-bottom: 1.5rem;
+      color: #444;
+    }
+
+    button {
+      background-color: #ec4899;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #db2777;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎲 شو أعمل  لحبيبي سالم اليوم؟</h1>
+  <div class="card">
+    <div id="decision" class="decision">اللعبة هاي خاصة بحبيبتي  دودو بس ❤️</div>
+    <button id="decide-btn">خيّرني 🔮</button>
+  </div>
+
+  <audio id="tick-sound" preload="auto" loop>
+    <source src="lfa.m4a" type="audio/mpeg">
+  </audio>
+  <audio id="final-sound" preload="auto">
+    <source src="don.m4a" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const decisions = [
+    "  اشوف  الحتة اليمين  👀 ",
+    "  اشوف الحتة الشمال 😋 ",
+    " اشوف الاثنين 😂  ",
+    "   تصوريلي وانتي مبوزة 😙",
+    "   ابعتيلي فويس بصوت شتوي 😍🤣",
+    "  ابعتيلي صوت بصوت جعفر 👻 ",
+    " قومي احشي خبزة جبنة وصوريلي ياها 🥖  ",
+    "  ابعتيلي ڤويس بحبك يسالم ❤️❤️😍 ",
+    "  صوري حالك صورة نار شرار 🔞😋 ",
+    "  ما بتعملي اليوم اشي يحبككك ❤️ ",
+    "  نطلع اليوم ع حسابك ",
+    "  تعزميني ع بوظة 🥂🍦 ",
+    "  اعزمك على اى مكان بدك ياه 🍿 ",
+    "  نحضر فيلم ع زوقك 🍿 ",
+    "  اعزمك على اى مكان بدك ياه 🍿 ",
+    " نحضر فيلم ع زوقك 🍿  ",
+    "   نعمل 🔞",
+    " احكيلي بحبك 50 مرة  ",
+    "  اعملك تسريحة ع زوقي 👻 ",
+    "تطبخي عزوقي اليوم",
+
+
+    ];
+
+    const decisionElement = document.getElementById("decision");
+    const button = document.getElementById("decide-btn");
+    const tickSound = document.getElementById("tick-sound");
+    const finalSound = document.getElementById("final-sound");
+
+    function getRandomDecision() {
+      let counter = 0;
+      const duration = 5000;
+      const interval = 100;
+
+      tickSound.currentTime = 0;
+      tickSound.play().catch(e => console.log("tick sound error:", e));
+
+      const intervalId = setInterval(() => {
+        const randomIndex = Math.floor(Math.random() * decisions.length);
+        decisionElement.textContent = decisions[randomIndex];
+        counter += interval;
+
+        if (counter >= duration) {
+          clearInterval(intervalId);
+          tickSound.pause();
+          tickSound.currentTime = 0;
+
+          try {
+            finalSound.currentTime = 0;
+            finalSound.play();
+          } catch (e) {
+            console.log("final sound error:", e);
+          }
+        }
+      }, interval);
+    }
+
+    button.addEventListener("click", () => {
+      getRandomDecision();
+    });
+  </script>
+</body>
+</html>
+
